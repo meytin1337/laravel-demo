@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,6 +14,13 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::controller(ShopController::class)->group(function () {
+    Route::get('/shop/create', 'create');
+    Route::post('/shop/create', 'create');
+});
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

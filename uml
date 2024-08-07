@@ -1,0 +1,6 @@
+Shop has many Products
+User has many Orders
+Order has many Products
+Order has one Shop
+Order has one User
+Product has many Orders
