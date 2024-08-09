@@ -11,6 +11,7 @@ class Shop extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'country', 'city', 'street', 'postalCode'];
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);

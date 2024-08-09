@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Shop;
+use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
 {
@@ -23,6 +25,15 @@ class ShopController extends Controller
         //
         if ($request->isMethod('get')) {
             return Inertia::render('Shop/Create');
+        } else {
+            $validated = $request->validate([
+                'name' => 'required|string|max:30',
+                'country' => 'required|string|max:20',
+                'city' => 'required|string|max:20',
+                'street' => 'required|string|max:200',
+                'postalCode' => 'required|numeric|max:5|min:5',
+            ]);
+            Shop::create($validated);
         }
     }
 
