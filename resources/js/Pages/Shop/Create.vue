@@ -1,12 +1,16 @@
 <script setup lang="ts">
 //import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
 
-const name = ref('')
-const street = ref('')
-const postalCode = ref('')
-const city = ref('')
-const country = ref('')
+const valid = ref(false)
+const form = useForm({
+    name: '',
+    country: '',
+    postalCode: null,
+    city: '',
+    street: '',
+})
 const nameRules = [
     (value: string | undefined) => {
         if (value) return true
@@ -14,7 +18,7 @@ const nameRules = [
         return 'Name is required.'
     },
     (value: string | undefined) => {
-        if (value?.length <= 30) return true
+        if (value && value?.length <= 30) return true
 
         return 'Name must be less than 30 characters.'
     },
@@ -26,7 +30,7 @@ const streetRules = [
         return 'Street is required.'
     },
     (value: string | undefined) => {
-        if (value?.length <= 100) return true
+        if (value && value?.length <= 100) return true
 
         return 'Street must be less than 100 characters.'
     },
@@ -38,7 +42,7 @@ const postalCodeRules = [
         return 'Postal code is required.'
     },
     (value: string | undefined) => {
-        if (Number(value).isNan()) return true
+        if (typeof value === 'number') return true
 
         return 'Postal code must be a number'
     },
@@ -55,7 +59,7 @@ const cityRules = [
         return 'City is required.'
     },
     (value: string | undefined) => {
-        if (value?.length <= 20) return true
+        if (value && value?.length <= 20) return true
 
         return 'City must be less than 20 characters.'
     },
@@ -67,18 +71,15 @@ const countryRules = [
         return 'City is required.'
     },
     (value: string | undefined) => {
-        if (value?.length <= 20) return true
+        if (value && value?.length <= 20) return true
 
         return 'City must be less than 20 characters.'
     },
 ]
-const createShop = (value): void => {
-    console.log(value)
-}
 </script>
 
 <template>
-    <v-form v-model="valid" fast-fail @submit.prevent="createShop">
+    <v-form v-model="valid" fast-fail @submit.prevent="form.post('/shop/create')">
         <v-container>
             <v-row justify="center">
                 <h2 class="text-h2 p-5">
@@ -87,7 +88,7 @@ const createShop = (value): void => {
             </v-row>
             <v-row justify="center">
                 <v-col cols="12" md="4">
-                    <v-text-field v-model="name" :rules="nameRules" label="Shop name" hide-details required />
+                    <v-text-field v-model="form.name" :rules="nameRules" label="Shop name" hide-details required />
                 </v-col>
             </v-row>
             <v-row>
@@ -97,22 +98,22 @@ const createShop = (value): void => {
             </v-row>
             <v-row justify="center">
                 <v-col>
-                    <v-text-field v-model="street" :rules="streetRules" label="Street" hide-details required />
+                    <v-text-field v-model="form.street" :rules="streetRules" label="Street" hide-details required />
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="postalCode" :rules="postalCodeRules" label="Postal code" type="number"
+                    <v-text-field v-model="form.postalCode" :rules="postalCodeRules" label="Postal code" type="number"
                         hide-details required />
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="city" :rules="cityRules" label="City" hide-details required />
+                    <v-text-field v-model="form.city" :rules="cityRules" label="City" hide-details required />
                 </v-col>
                 <v-col>
-                    <v-text-field v-model="country" :rules="countryRules" label="Country" hide-details required />
+                    <v-text-field v-model="form.country" :rules="countryRules" label="Country" hide-details required />
                 </v-col>
             </v-row>
             <v-row justify="center">
                 <v-col cols="4">
-                    <v-btn class="mt-2" type="submit" block>
+                    <v-btn class="mt-2" type="submit" block :disabled="valid">
                         Submit
                     </v-btn>
                 </v-col>
