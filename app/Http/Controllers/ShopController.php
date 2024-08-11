@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Shop;
+use App\Http\Requests\CreateShopRequest;
 use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
@@ -20,21 +21,23 @@ class ShopController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(CreateShopRequest $request)
     {
         //
-        if ($request->isMethod('get')) {
-            return Inertia::render('Shop/Create');
-        } else {
-            $validated = $request->validate([
-                'name' => 'required|string|max:30',
-                'country' => 'required|string|max:20',
-                'city' => 'required|string|max:20',
-                'street' => 'required|string|max:200',
-                'postalCode' => 'required|numeric|max:5|min:5',
-            ]);
-            Shop::create($validated);
-        }
+        $validated = $request->validated();
+        $shop = Shop::create([
+            'name' => $validated['name'],
+            'postal_code' => $validated['postalCode'],
+            'country' => $validated['country'],
+            'city' => $validated['city'],
+            'street' => $validated['street']
+        ]);
+        return $this->show($shop->id);
+    }
+
+    public function getCreate()
+    {
+        return Inertia::render('Shop/Create');
     }
 
     /**
@@ -50,7 +53,10 @@ class ShopController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $shop = Shop::find($id);
+        return Inertia::render('Shop/Show', [
+            'shop' => $shop
+        ]);
     }
 
     /**

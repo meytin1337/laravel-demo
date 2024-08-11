@@ -16,8 +16,9 @@ Route::get('/', function () {
 });
 
 Route::controller(ShopController::class)->group(function () {
-    Route::get('/shop/create', 'create');
+    Route::get('/shop/create', 'getCreate');
     Route::post('/shop/create', 'create');
+    Route::get('/shop/show/{id}', 'show');
 });
 
 
