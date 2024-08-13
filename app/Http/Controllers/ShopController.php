@@ -23,7 +23,9 @@ class ShopController extends Controller
      */
     public function create(CreateShopRequest $request)
     {
-        //
+        if ($request->user()->cannot('create', Shop::class)) {
+            abort(403);
+        }
         $validated = $request->validated();
         $shop = Shop::create([
             'name' => $validated['name'],
@@ -33,11 +35,6 @@ class ShopController extends Controller
             'street' => $validated['street']
         ]);
         return $this->show($shop->id);
-    }
-
-    public function getCreate()
-    {
-        return Inertia::render('Shop/Create');
     }
 
     /**

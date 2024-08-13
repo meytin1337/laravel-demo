@@ -1,11 +1,11 @@
 <script setup>
 import Layout from '../../Layouts/AuthenticatedLayout.vue'
 
-defineProps({ shop: Object })
+defineProps({ product: Object })
 </script>
 
 <template>
   <Layout>
-    <p>{{ shop.name }}</p>
+    <p>{{ product.name }}</p>
   </Layout>
 </template>

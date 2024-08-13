@@ -14,7 +14,6 @@ class CreateShopRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-        /*return Auth::check();*/
     }
 
     /**
@@ -29,7 +28,7 @@ class CreateShopRequest extends FormRequest
             'country' => 'required|string|max:20',
             'city' => 'required|string|max:20',
             'street' => 'required|string|max:200',
-            'postalCode' => 'required|numeric|max:99999',
+            'postalCode' => 'required|string|max:5|min:5',
         ];
     }
 }

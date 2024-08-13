@@ -2,29 +2,36 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Shop;
+use App\Models\Order;
+use App\Models\Product;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Welcome');
 });
 
 Route::controller(ShopController::class)->group(function () {
-    Route::get('/shop/create', 'getCreate');
-    Route::post('/shop/create', 'create');
-    Route::get('/shop/show/{id}', 'show');
+    Route::get('/shop/create', function () { return Inertia::render('Shop/Create'); })->middleware('auth');
+    Route::post('/shop/create', 'create')->middleware('auth');
+    Route::get('/shop/show/{id}', 'show')->middleware('auth');
+});
+
+Route::controller(ProductController::class)->group(function () {
+    Route::get('/product/create', function () { return Inertia::render('Product/Create', [ 'shops' => Shop::all() ]); })->middleware('auth');
+    Route::post('/product/create', 'create')->middleware('auth');
+    Route::get('/product/show/{id}', 'show')->middleware('auth');
 });
 
 
-
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'shops' => Shop::all(),
+        'products' => Product::all(),
+        'orders' => Order::all(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

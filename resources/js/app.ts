@@ -5,17 +5,13 @@ import { createApp, h, DefineComponent } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
-import "vuetify/styles";
-import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
+import { Quasar } from 'quasar'
+import '@quasar/extras/material-icons/material-icons.css'
+
+import 'quasar/src/css/index.sass'
+
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
-
-const vuetify = createVuetify({
-    components,
-    directives,
-});
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -28,7 +24,9 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use(vuetify)
+            .use(Quasar, {
+                plugins: {}
+            })
             .mount(el);
     },
     progress: {

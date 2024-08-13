@@ -14,6 +14,9 @@
         @routes
         @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+        <script>
+			window.app_base_url = '<?php echo (config('app.url')) ?>';
+		</script>
     </head>
     <body class="font-sans antialiased">
         @inertia

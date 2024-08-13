@@ -1,20 +1,27 @@
-// @ts-check
-
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginVue from "eslint-plugin-vue";
-
-export default tseslint.config(
-    eslint.configs.recommended,
-    ...tseslint.configs.strict,
-    ...tseslint.configs.stylistic,
-    ...pluginVue.configs["flat/recommended"],
-    {
-        files: ["*.vue", "**/*.vue"],
-        languageOptions: {
-            parserOptions: {
-                parser: "@typescript-eslint/parser",
-            },
-        },
-    },
-);
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+  },
+  parser: "vue-eslint-parser",
+  parserOptions: {
+    parser: "@typescript-eslint/parser",
+    ecmaVersion: 2020,
+    sourceType: "module",
+  },
+  extends: [
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:vue/vue3-recommended",
+    //"plugin:vue/recommended",
+    "prettier/vue",
+  ],
+  plugins: ["prettier", "@typescript-eslint"],
+  rules: {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars-experimental": "error",
+  },
+  "ignorePatterns": ["dist"],
+};

@@ -12,18 +12,12 @@ import { Link } from '@inertiajs/vue3'
             <q-list style="min-width: 100px">
               <q-item clickable v-close-popup>
                 <Link href="/shop/create"
-                  ><q-item-section>Create Shop</q-item-section></Link
+                  ><q-item-section>View Orders</q-item-section></Link
                 >
               </q-item>
               <q-item clickable v-close-popup>
                 <Link href="/product/create"
-                  ><q-item-section>Create Product</q-item-section></Link
-                >
-              </q-item>
-              <q-separator />
-              <q-item clickable v-close-popup>
-                <Link href="/shop/create"
-                  ><q-item-section>Create Order</q-item-section></Link
+                  ><q-item-section>User Settings</q-item-section></Link
                 >
               </q-item>
               <q-separator />
